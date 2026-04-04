@@ -1,8 +1,8 @@
 import { hasAnalyticsConsent } from '@/lib/cookie-consent'
 
-const DEFAULT_HEARTBEAT_INTERVAL = 15000 // 15 seconds
-const SLOW_HEARTBEAT_INTERVAL = 30000 // 30 seconds on slow connections
-const FLUSH_INTERVAL = 10000 // 10 seconds
+const DEFAULT_HEARTBEAT_INTERVAL = 3000 // 3 seconds
+const SLOW_HEARTBEAT_INTERVAL = 5000 // 5 seconds on slow connections
+const FLUSH_INTERVAL = 3000 // 3 seconds
 const MAX_BATCH_SIZE = 20
 const SESSION_TIMEOUT = 30 * 60 * 1000 // 30 minutes
 
@@ -69,11 +69,9 @@ class AnalyticsTracker {
   constructor() {
     this.storeId = process.env.NEXT_PUBLIC_STORE_ID || ''
     this.publishableKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || ''
-    // Use Medusa backend URL for analytics (with /store/analytics prefix)
-    // Falls back to legacy NEXT_PUBLIC_ANALYTICS_ENDPOINT for backward compat
     const medusaUrl = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || ''
     this.endpoint = medusaUrl
-      ? `${medusaUrl}/store/analytics`
+      ? `${medusaUrl}/analytics`
       : process.env.NEXT_PUBLIC_ANALYTICS_ENDPOINT || ''
 
     this.handleVisibilityChange = () => {
